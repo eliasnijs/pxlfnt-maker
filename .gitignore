@@ -1,0 +1,9 @@
+build/*
+!/build/_
+
+game/data/*
+!./game/data/_
+
+.vscode/*
+
+non_git_folder/*
