@@ -1,0 +1,15 @@
+
+  TODO
+
+- show ASCII table with status per char
+- color palettes
+- edit hole font at once 
+- zoom in/out and pan functionality
+- no fixed resolution (currently at 16)
+
+  IN PROGRESS
+
+
+  DONE
+
+

@@ -38,6 +38,10 @@ SDL_process_keyboard(GameInput *game_input)
                              state[SDL_SCANCODE_R]); 
   SDL_process_keyboard_input(&game_input->action3, 
                              state[SDL_SCANCODE_D]); 
+  SDL_process_keyboard_input(&game_input->action4, 
+                             state[SDL_SCANCODE_LEFT]); 
+  SDL_process_keyboard_input(&game_input->action5, 
+                             state[SDL_SCANCODE_RIGHT]); 
 } 
 
 ///////////////////////////////////////////////////////////
@@ -134,6 +138,8 @@ help(void)
   printf("   D                Clear all pixels\n");
   printf("   S                Save letter to pxlfnt file\n");
   printf("   R                Reload letter from pxlfnt file\n");
+  printf("   LEFT             Load next letter from pxlfnt file\n");
+  printf("   RIGHT            Load previous letter from pxlfnt file\n");
   printf("   \n");
 }
 

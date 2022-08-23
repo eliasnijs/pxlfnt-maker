@@ -35,39 +35,6 @@ file_read(FILE *file_connection, S32 *length, U8 *storage)
 }
 
 ///////////////////////////////////////////////////////////
-//// NOTE(Elias): Letter
-
-internal void
-fnt_ppmletter_bytes_compress(U8 *pixels, U8 *letter_bits)
-{
-  S32 i, j, i_letter, i_byte, i_bit, c_threshold;
-  B32 active;
-  U8 *pxl_d; 
-  FILE *file; 
-  
-  c_threshold = 0xFE;
-  i = 0; i_letter = 0;
-  while (i < 16)
-  {
-    j = 0;
-    while (j < 16)
-    {
-      i_byte = i_letter / 8;
-      i_bit  = i_letter - (i_byte * 8); 
-      active = (pixels[i*16*3 + j*3] >= c_threshold) && 
-               (pixels[i*16*3 + j*3 + 1] >= c_threshold) &&
-               (pixels[i*16*3 + j*3 + 2] >= c_threshold);
-      if (active)
-      {
-        letter_bits[i_byte] |= 1 << i_bit;
-      }
-      ++j; ++i_letter;
-    }
-    ++i;
-  } 
-} 
-
-///////////////////////////////////////////////////////////
 //// NOTE(Elias): Font
 
 internal void
@@ -283,9 +250,9 @@ draw_box_overlay(SDL_Surface *surface, V2S32 pos, S32 w, S32 h, U8 c)
       
       U8 r = *(p + 0);
       if (r < 128)
-        r += c;
+        r += c*2;
       else
-        r -= c;
+        r -= c*2;
           
       U8 g = *(p + 1);
       if (g < 128)
@@ -478,6 +445,8 @@ game_update(GameState *game_state, GameInput *game_input,
   // action1: SAVE ~ S
   // action2: RELOAD ~ R
   // action3: DELETE ~ D
+  // action4: PREV CHAR ~ LEFT
+  // action5: NEXT CHAR ~ RIGHT 
   if (key_down_single(game_input->action1))
   {
     letter_save(game_state->letter, game_state->tiles, game_state->file_path);
@@ -489,6 +458,22 @@ game_update(GameState *game_state, GameInput *game_input,
   if (key_down_single(game_input->action3))
   {
     letter_delete(game_state->tiles);
+  }
+  if (key_down_single(game_input->action4))
+  {
+    if (game_state->letter > 0)
+    {
+      game_state->letter -= 1;
+      letter_load(game_state->letter, game_state->tiles, game_state->file_path);
+    }
+  }
+  if (key_down_single(game_input->action5))
+  {
+    if (game_state->letter < 127)
+    {
+      game_state->letter += 1;
+      letter_load(game_state->letter, game_state->tiles, game_state->file_path);
+    }
   }
 
   // OPIONAL TODOS:  
@@ -504,6 +489,4 @@ game_render(SDL_Surface *surface, GameState *game_state)
 
   S32 w_tile = SCREEN_HEIGHT / 16;
   draw_box_overlay(surface, game_state->pos + v2s32(0,1), w_tile, w_tile, 64);
-}
-
-
+} 

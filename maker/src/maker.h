@@ -41,30 +41,9 @@ inline internal B32 key_down(GameButtonState button);
 inline internal B32 key_down_single(GameButtonState button);
 inline internal B32 key_up_single(GameButtonState button);
 
-///////////////////////////////////////////////////////////
-//// NOTE(Elias): Letter
-struct Letter
-{
-  U8 pixels[1024];
-}; 
-
-internal void fnt_ppmletter_bytes_compress(U8 *pixels, U8 *letter_bits);
 
 ///////////////////////////////////////////////////////////
 //// NOTE(Elias): Fonts
-
-// TODO(Elias): Create way to design the letters in realtime.
-// This will remove all the stupid image stuff!
-
-// TODO(Elias): Create png to ppm function or even to 
-// bytes function
-
-// TODO(Elias): Create Font Instance with:
-// - reference to font
-// - Variable space between letters
-// - Alignment: left, right, center
-// - Variable space between lines
-// ( - font weight)
 
 // TODO(Elias): Perhaps I can improve pxlfnt by 
 // encoding sequences (some sortf of compression);
